@@ -40,6 +40,22 @@ function App() {
     setTodos(newTodos);
   }
 
+  const handleChecked = (id: number, checked: boolean) => {
+    const newTodos = todos.map((todo) => {
+      if(todo.id === id){
+        todo.checked = !checked;
+      }
+      return todo;
+    })
+
+    setTodos(newTodos);
+  }
+
+  const handleDelete = (id: number) => {
+    const newTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(newTodos);
+  }
+
   return (
     <div className="App">
       <div>
@@ -56,11 +72,18 @@ function App() {
         <ul  className='todoList'>
           {todos.map(todo => (
             <li key={todo.id}>
-              <input className='inpuText' 
+              <input 
+              className='inpuText' 
               onChange={(e) => handleEdit(todo.id, e.target.value)} 
               type="text" 
               value={todo.inputValue}
+              disabled={todo.checked}
               />
+              <input  
+              onChange={(e) => handleChecked(todo.id, todo.checked)} 
+              type="checkbox" 
+              />
+              <button onClick={() => handleDelete(todo.id)}>消</button>
             </li>
           ))}
         </ul>
